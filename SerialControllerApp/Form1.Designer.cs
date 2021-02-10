@@ -138,7 +138,6 @@ namespace SerialControllerApp
 			this.txtMessage.Name = "txtMessage";
 			this.txtMessage.Size = new System.Drawing.Size(683, 20);
 			this.txtMessage.TabIndex = 9;
-			this.txtMessage.Text = "asd";
 			// 
 			// btnSend
 			// 
@@ -168,6 +167,11 @@ namespace SerialControllerApp
 			this.txtReceive.Size = new System.Drawing.Size(683, 173);
 			this.txtReceive.TabIndex = 11;
 			// 
+			// serialPort1
+			// 
+			this.serialPort1.BaudRate = 115200;
+			this.serialPort1.PortName = "COM5";
+			// 
 			// btnUpZ
 			// 
 			this.btnUpZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
@@ -178,6 +182,7 @@ namespace SerialControllerApp
 			this.btnUpZ.TabIndex = 13;
 			this.btnUpZ.Text = "🠑";
 			this.btnUpZ.UseVisualStyleBackColor = true;
+			this.btnUpZ.Click += new System.EventHandler(this.btnUpZ_Click);
 			// 
 			// btnDownZ
 			// 
@@ -189,6 +194,7 @@ namespace SerialControllerApp
 			this.btnDownZ.TabIndex = 14;
 			this.btnDownZ.Text = "🠓";
 			this.btnDownZ.UseVisualStyleBackColor = true;
+			this.btnDownZ.Click += new System.EventHandler(this.btnDownZ_Click);
 			// 
 			// Form1
 			// 

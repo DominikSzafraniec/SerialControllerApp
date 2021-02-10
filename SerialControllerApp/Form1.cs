@@ -80,8 +80,8 @@ namespace SerialControllerApp
             {
                 if (serialPort1.IsOpen)
                 {
-                    //Read text from port
-                    txtReceive.Text = serialPort1.ReadExisting();
+					//Read text from port
+					txtReceive.AppendText(serialPort1.ReadExisting());
                 }
             }
             catch (Exception ex)
@@ -153,6 +153,38 @@ namespace SerialControllerApp
                 {
                     //Send text to port
                     serialPort1.WriteLine("d" + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+		private void btnUpZ_Click(object sender, EventArgs e)
+		{
+            try
+            {
+                if (serialPort1.IsOpen)
+                {
+                    //Send text to port
+                    serialPort1.WriteLine("h" + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+		private void btnDownZ_Click(object sender, EventArgs e)
+		{
+            try
+            {
+                if (serialPort1.IsOpen)
+                {
+                    //Send text to port
+                    serialPort1.WriteLine("y" + Environment.NewLine);
                 }
             }
             catch (Exception ex)
