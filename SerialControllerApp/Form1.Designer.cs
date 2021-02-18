@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace SerialControllerApp
 {
 	partial class Form1
@@ -40,11 +42,14 @@ namespace SerialControllerApp
 			this.btnClose = new System.Windows.Forms.Button();
 			this.txtMessage = new System.Windows.Forms.TextBox();
 			this.btnSend = new System.Windows.Forms.Button();
-			this.btnReceive = new System.Windows.Forms.Button();
 			this.txtReceive = new System.Windows.Forms.TextBox();
 			this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
 			this.btnUpZ = new System.Windows.Forms.Button();
 			this.btnDownZ = new System.Windows.Forms.Button();
+			this.cboBaundRate = new System.Windows.Forms.ComboBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.cboSteps = new System.Windows.Forms.ComboBox();
+			this.label3 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// btnUpY
@@ -98,7 +103,7 @@ namespace SerialControllerApp
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(22, 22);
+			this.label1.Location = new System.Drawing.Point(12, 93);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(29, 13);
 			this.label1.TabIndex = 5;
@@ -107,14 +112,14 @@ namespace SerialControllerApp
 			// cboPort
 			// 
 			this.cboPort.FormattingEnabled = true;
-			this.cboPort.Location = new System.Drawing.Point(25, 39);
+			this.cboPort.Location = new System.Drawing.Point(15, 110);
 			this.cboPort.Name = "cboPort";
 			this.cboPort.Size = new System.Drawing.Size(121, 21);
 			this.cboPort.TabIndex = 6;
 			// 
 			// btnOpen
 			// 
-			this.btnOpen.Location = new System.Drawing.Point(25, 66);
+			this.btnOpen.Location = new System.Drawing.Point(15, 137);
 			this.btnOpen.Name = "btnOpen";
 			this.btnOpen.Size = new System.Drawing.Size(56, 23);
 			this.btnOpen.TabIndex = 7;
@@ -124,7 +129,7 @@ namespace SerialControllerApp
 			// 
 			// btnClose
 			// 
-			this.btnClose.Location = new System.Drawing.Point(90, 66);
+			this.btnClose.Location = new System.Drawing.Point(80, 137);
 			this.btnClose.Name = "btnClose";
 			this.btnClose.Size = new System.Drawing.Size(56, 23);
 			this.btnClose.TabIndex = 8;
@@ -149,16 +154,6 @@ namespace SerialControllerApp
 			this.btnSend.UseVisualStyleBackColor = true;
 			this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
 			// 
-			// btnReceive
-			// 
-			this.btnReceive.Location = new System.Drawing.Point(914, 296);
-			this.btnReceive.Name = "btnReceive";
-			this.btnReceive.Size = new System.Drawing.Size(75, 42);
-			this.btnReceive.TabIndex = 12;
-			this.btnReceive.Text = "Get Feedback";
-			this.btnReceive.UseVisualStyleBackColor = true;
-			this.btnReceive.Click += new System.EventHandler(this.btnReceive_Click);
-			// 
 			// txtReceive
 			// 
 			this.txtReceive.Location = new System.Drawing.Point(225, 296);
@@ -169,7 +164,6 @@ namespace SerialControllerApp
 			// 
 			// serialPort1
 			// 
-			this.serialPort1.BaudRate = 115200;
 			this.serialPort1.PortName = "COM5";
 			// 
 			// btnUpZ
@@ -196,14 +190,77 @@ namespace SerialControllerApp
 			this.btnDownZ.UseVisualStyleBackColor = true;
 			this.btnDownZ.Click += new System.EventHandler(this.btnDownZ_Click);
 			// 
+			// cboBaundRate
+			// 
+			this.cboBaundRate.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this.cboBaundRate.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.cboBaundRate.DisplayMember = "9600";
+			this.cboBaundRate.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.cboBaundRate.FormatString = "N2";
+			this.cboBaundRate.FormattingEnabled = true;
+			this.cboBaundRate.Items.AddRange(new object[] {
+            "9600",
+            "19200",
+            "38400",
+            "57600",
+            "74880",
+            "115200",
+            "230400",
+            "250000"});
+			this.cboBaundRate.Location = new System.Drawing.Point(15, 69);
+			this.cboBaundRate.Name = "cboBaundRate";
+			this.cboBaundRate.Size = new System.Drawing.Size(121, 21);
+			this.cboBaundRate.TabIndex = 16;
+			this.cboBaundRate.Text = "9600";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 52);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(62, 13);
+			this.label2.TabIndex = 15;
+			this.label2.Text = "Baund rate:";
+			// 
+			// cboSteps
+			// 
+			this.cboSteps.FormattingEnabled = true;
+			this.cboSteps.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"});
+			this.cboSteps.Location = new System.Drawing.Point(22, 268);
+			this.cboSteps.Name = "cboSteps";
+			this.cboSteps.Size = new System.Drawing.Size(40, 21);
+			this.cboSteps.TabIndex = 17;
+			this.cboSteps.Text = "1";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(19, 252);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(87, 13);
+			this.label3.TabIndex = 18;
+			this.label3.Text = "Number of steps:";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(994, 502);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.cboSteps);
+			this.Controls.Add(this.cboBaundRate);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.btnDownZ);
 			this.Controls.Add(this.btnUpZ);
-			this.Controls.Add(this.btnReceive);
 			this.Controls.Add(this.txtReceive);
 			this.Controls.Add(this.btnSend);
 			this.Controls.Add(this.txtMessage);
@@ -224,7 +281,8 @@ namespace SerialControllerApp
 		}
 
 		#endregion
-
+		public delegate void AddDataDelegate(String myString);
+		public AddDataDelegate myDelegate;
 		private System.Windows.Forms.Button btnUpY;
 		private System.Windows.Forms.Button btnDownX;
 		private System.Windows.Forms.Button btnUpX;
@@ -235,11 +293,14 @@ namespace SerialControllerApp
 		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.TextBox txtMessage;
 		private System.Windows.Forms.Button btnSend;
-		private System.Windows.Forms.Button btnReceive;
 		private System.Windows.Forms.TextBox txtReceive;
 		private System.IO.Ports.SerialPort serialPort1;
 		private System.Windows.Forms.Button btnUpZ;
 		private System.Windows.Forms.Button btnDownZ;
+		private System.Windows.Forms.ComboBox cboBaundRate;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.ComboBox cboSteps;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

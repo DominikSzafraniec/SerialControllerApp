@@ -24,9 +24,23 @@ namespace SerialControllerApp
             string[] ports = SerialPort.GetPortNames();
             cboPort.Items.AddRange(ports);
             cboPort.SelectedIndex = 0;
+            cboPort.Text = cboPort.GetItemText(ports[0]);
             btnClose.Enabled = false;
+            serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+            this.myDelegate = new AddDataDelegate(AddDataMethod);
         }
- 
+        public void AddDataMethod(String myString)
+        {
+            txtReceive.AppendText(DateTime.UtcNow.ToString("HH:mm:ss")+ ": " + myString);
+        }
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort)sender;
+            string s = sp.ReadExisting();
+
+            txtReceive.Invoke(this.myDelegate, new Object[] { s });
+        }
+
         private void btnOpen_Click(object sender, EventArgs e)
         {
             btnOpen.Enabled = false;
@@ -35,6 +49,7 @@ namespace SerialControllerApp
             {
                 //Open port
                 serialPort1.PortName = cboPort.Text;
+                serialPort1.BaudRate = int.Parse(cboBaundRate.Text);
                 serialPort1.Open();
             }
             catch(Exception ex)
@@ -74,22 +89,6 @@ namespace SerialControllerApp
             }
         }
  
-        private void btnReceive_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (serialPort1.IsOpen)
-                {
-					//Read text from port
-					txtReceive.AppendText(serialPort1.ReadExisting());
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
- 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (serialPort1.IsOpen)
@@ -103,7 +102,7 @@ namespace SerialControllerApp
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    serialPort1.WriteLine("w" + Environment.NewLine);
+                    serialPort1.WriteLine("w"+cboSteps.Text + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -120,7 +119,7 @@ namespace SerialControllerApp
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    serialPort1.WriteLine("s" + Environment.NewLine);
+                    serialPort1.WriteLine("s" + cboSteps.Text + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -136,7 +135,7 @@ namespace SerialControllerApp
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    serialPort1.WriteLine("a" + Environment.NewLine);
+                    serialPort1.WriteLine("a" + cboSteps.Text + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -152,7 +151,7 @@ namespace SerialControllerApp
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    serialPort1.WriteLine("d" + Environment.NewLine);
+                    serialPort1.WriteLine("d" + cboSteps.Text + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -168,7 +167,7 @@ namespace SerialControllerApp
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    serialPort1.WriteLine("h" + Environment.NewLine);
+                    serialPort1.WriteLine("h" + cboSteps.Text + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -184,7 +183,7 @@ namespace SerialControllerApp
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    serialPort1.WriteLine("y" + Environment.NewLine);
+                    serialPort1.WriteLine("y" + cboSteps.Text + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -192,5 +191,6 @@ namespace SerialControllerApp
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-	}
+}
+	
 }
