@@ -22,9 +22,15 @@ namespace SerialControllerApp
         {
             //Get all ports
             string[] ports = SerialPort.GetPortNames();
-            cboPort.Items.AddRange(ports);
-            cboPort.SelectedIndex = 0;
-            cboPort.Text = cboPort.GetItemText(ports[0]);
+            if (!ports.Equals(null))
+            {
+                cboPort.Items.AddRange(ports);
+                cboPort.SelectedIndex = 0;
+                cboPort.Text = cboPort.GetItemText(ports[0]);
+                btnOpen.Enabled = true;
+            } else {
+                btnOpen.Enabled = false;
+			}
             btnClose.Enabled = false;
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
             this.myDelegate = new AddDataDelegate(AddDataMethod);
@@ -45,6 +51,7 @@ namespace SerialControllerApp
         {
             btnOpen.Enabled = false;
             btnClose.Enabled = true;
+            btnRefresh.Enabled = false;
             try
             {
                 //Open port
@@ -79,6 +86,7 @@ namespace SerialControllerApp
         {
             btnOpen.Enabled = true;
             btnClose.Enabled = false;
+            btnRefresh.Enabled = true;
             try
             {
                 serialPort1.Close();
@@ -191,6 +199,23 @@ namespace SerialControllerApp
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-}
+
+		private void btnRefresh_Click(object sender, EventArgs e)
+		{
+            string[] ports = SerialPort.GetPortNames();
+            if (!ports.Equals(null))
+            {
+                cboPort.Items.AddRange(ports);
+                cboPort.SelectedIndex = 0;
+                cboPort.Text = cboPort.GetItemText(ports[0]);
+            }
+        }
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+            Form2 form2 = new Form2();
+            form2.ShowDialog();
+		}
+	}
 	
 }
