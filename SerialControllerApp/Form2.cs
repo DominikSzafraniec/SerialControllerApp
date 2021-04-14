@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +39,7 @@ namespace SerialControllerApp
 			drawing = false;
 			x = -1;
 			y = -1;
+			graphics.Flush();
 		}
 
 		private void panel1_MouseMove(object sender, MouseEventArgs e)
@@ -44,9 +47,20 @@ namespace SerialControllerApp
 			if (drawing && x != -1 && y != -1)
 			{
 				graphics.DrawLine(pen, new Point(x, y), e.Location);
-				x = e.X;
-				y = e.Y;
 			}
+
+			x = e.X;
+			y = e.Y;
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			graphics.Dispose();
+			panel1.Visible = true;
+			Bitmap bmap = new Bitmap(panel1.Width, panel1.Height);
+			panel1.DrawToBitmap(bmap, new Rectangle(0, 0, panel1.Width, panel1.Height));
+			bmap.Save("save1_1.bmp", ImageFormat.Bmp);
+			bmap.Dispose();
 		}
 	}
 }
