@@ -15,17 +15,20 @@ namespace SerialControllerApp
 	public partial class Form2 : Form
 	{
 		Graphics graphics;
-		Pen pen;
+		Bitmap surface;
+		public Pen pen;
 		int x = -1;
 		int y = -1;
-		bool drawing=false;
+		bool drawing = false;
 		public Form2()
 		{
 			InitializeComponent();
-			graphics = panel1.CreateGraphics();
-			graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-			pen = new Pen(Color.Black,1);
-			pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+			surface = new Bitmap(panel1.Width, panel1.Height);
+			graphics = Graphics.FromImage(surface);
+			panel1.BackgroundImage = surface;
+			panel1.BackgroundImageLayout = ImageLayout.None;
+			pen = new Pen(Color.Black, 5);
+			pen.SetLineCap(System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.DashCap.Round);
 		}
 		private void panel1_MouseDown(object sender, MouseEventArgs e)
 		{
@@ -47,20 +50,16 @@ namespace SerialControllerApp
 			if (drawing && x != -1 && y != -1)
 			{
 				graphics.DrawLine(pen, new Point(x, y), e.Location);
+				panel1.Invalidate();
 			}
 
 			x = e.X;
-			y = e.Y;
+			y = e.Y;	
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			graphics.Dispose();
-			panel1.Visible = true;
-			Bitmap bmap = new Bitmap(panel1.Width, panel1.Height);
-			panel1.DrawToBitmap(bmap, new Rectangle(0, 0, panel1.Width, panel1.Height));
-			bmap.Save("save1_1.bmp", ImageFormat.Bmp);
-			bmap.Dispose();
+			surface.Save("save1_1.bmp", ImageFormat.MemoryBmp);
 		}
 	}
 }
