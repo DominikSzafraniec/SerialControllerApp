@@ -32,6 +32,7 @@ namespace SerialControllerApp
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.btnUpY = new System.Windows.Forms.Button();
 			this.btnDownX = new System.Windows.Forms.Button();
 			this.btnUpX = new System.Windows.Forms.Button();
@@ -57,7 +58,7 @@ namespace SerialControllerApp
 			// btnUpY
 			// 
 			this.btnUpY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.btnUpY.Location = new System.Drawing.Point(64, 300);
+			this.btnUpY.Location = new System.Drawing.Point(59, 219);
 			this.btnUpY.Margin = new System.Windows.Forms.Padding(1);
 			this.btnUpY.Name = "btnUpY";
 			this.btnUpY.Size = new System.Drawing.Size(40, 40);
@@ -69,7 +70,7 @@ namespace SerialControllerApp
 			// btnDownX
 			// 
 			this.btnDownX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.btnDownX.Location = new System.Drawing.Point(22, 342);
+			this.btnDownX.Location = new System.Drawing.Point(17, 261);
 			this.btnDownX.Margin = new System.Windows.Forms.Padding(1);
 			this.btnDownX.Name = "btnDownX";
 			this.btnDownX.Size = new System.Drawing.Size(40, 40);
@@ -81,7 +82,7 @@ namespace SerialControllerApp
 			// btnUpX
 			// 
 			this.btnUpX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.btnUpX.Location = new System.Drawing.Point(106, 342);
+			this.btnUpX.Location = new System.Drawing.Point(101, 261);
 			this.btnUpX.Margin = new System.Windows.Forms.Padding(1);
 			this.btnUpX.Name = "btnUpX";
 			this.btnUpX.Size = new System.Drawing.Size(40, 40);
@@ -93,7 +94,7 @@ namespace SerialControllerApp
 			// btnDownY
 			// 
 			this.btnDownY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.btnDownY.Location = new System.Drawing.Point(64, 384);
+			this.btnDownY.Location = new System.Drawing.Point(59, 303);
 			this.btnDownY.Margin = new System.Windows.Forms.Padding(1);
 			this.btnDownY.Name = "btnDownY";
 			this.btnDownY.Size = new System.Drawing.Size(40, 40);
@@ -141,14 +142,14 @@ namespace SerialControllerApp
 			// 
 			// txtMessage
 			// 
-			this.txtMessage.Location = new System.Drawing.Point(225, 475);
+			this.txtMessage.Location = new System.Drawing.Point(220, 394);
 			this.txtMessage.Name = "txtMessage";
-			this.txtMessage.Size = new System.Drawing.Size(683, 20);
+			this.txtMessage.Size = new System.Drawing.Size(602, 20);
 			this.txtMessage.TabIndex = 9;
 			// 
 			// btnSend
 			// 
-			this.btnSend.Location = new System.Drawing.Point(914, 473);
+			this.btnSend.Location = new System.Drawing.Point(828, 391);
 			this.btnSend.Name = "btnSend";
 			this.btnSend.Size = new System.Drawing.Size(75, 23);
 			this.btnSend.TabIndex = 10;
@@ -158,10 +159,10 @@ namespace SerialControllerApp
 			// 
 			// txtReceive
 			// 
-			this.txtReceive.Location = new System.Drawing.Point(225, 296);
+			this.txtReceive.Location = new System.Drawing.Point(220, 12);
 			this.txtReceive.Multiline = true;
 			this.txtReceive.Name = "txtReceive";
-			this.txtReceive.Size = new System.Drawing.Size(683, 173);
+			this.txtReceive.Size = new System.Drawing.Size(683, 376);
 			this.txtReceive.TabIndex = 11;
 			// 
 			// serialPort1
@@ -171,7 +172,7 @@ namespace SerialControllerApp
 			// btnUpZ
 			// 
 			this.btnUpZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-			this.btnUpZ.Location = new System.Drawing.Point(167, 316);
+			this.btnUpZ.Location = new System.Drawing.Point(162, 235);
 			this.btnUpZ.Margin = new System.Windows.Forms.Padding(1);
 			this.btnUpZ.Name = "btnUpZ";
 			this.btnUpZ.Size = new System.Drawing.Size(40, 40);
@@ -183,7 +184,7 @@ namespace SerialControllerApp
 			// btnDownZ
 			// 
 			this.btnDownZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-			this.btnDownZ.Location = new System.Drawing.Point(167, 369);
+			this.btnDownZ.Location = new System.Drawing.Point(162, 288);
 			this.btnDownZ.Margin = new System.Windows.Forms.Padding(1);
 			this.btnDownZ.Name = "btnDownZ";
 			this.btnDownZ.Size = new System.Drawing.Size(40, 40);
@@ -237,7 +238,7 @@ namespace SerialControllerApp
             "7",
             "8",
             "9"});
-			this.cboSteps.Location = new System.Drawing.Point(22, 268);
+			this.cboSteps.Location = new System.Drawing.Point(17, 187);
 			this.cboSteps.Name = "cboSteps";
 			this.cboSteps.Size = new System.Drawing.Size(40, 21);
 			this.cboSteps.TabIndex = 17;
@@ -246,7 +247,7 @@ namespace SerialControllerApp
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(19, 252);
+			this.label3.Location = new System.Drawing.Point(14, 171);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(87, 13);
 			this.label3.TabIndex = 18;
@@ -276,7 +277,7 @@ namespace SerialControllerApp
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(994, 502);
+			this.ClientSize = new System.Drawing.Size(915, 429);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.btnRefresh);
 			this.Controls.Add(this.label3);
@@ -296,6 +297,7 @@ namespace SerialControllerApp
 			this.Controls.Add(this.btnUpX);
 			this.Controls.Add(this.btnDownX);
 			this.Controls.Add(this.btnUpY);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Form1";
 			this.Text = "CNCtool";
 			this.Load += new System.EventHandler(this.Form1_Load);

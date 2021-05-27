@@ -61,5 +61,58 @@ namespace SerialControllerApp
 		{
 			surface.Save("save1_1.bmp", ImageFormat.MemoryBmp);
 		}
+
+		private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			surface.Save("save1_1.bmp", ImageFormat.MemoryBmp);
+		}
+
+		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Stream myStream;
+			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+			saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+			saveFileDialog1.FilterIndex = 1;
+			saveFileDialog1.RestoreDirectory = true;
+
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				if ((myStream = saveFileDialog1.OpenFile()) != null)
+				{
+					// Code to write the stream goes here.
+					myStream.Close();
+				}
+			}
+		}
+
+		private void Open_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			var fileContent = string.Empty;
+			var filePath = string.Empty;
+			openFileDialog.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+			openFileDialog.FilterIndex = 2;
+			openFileDialog.RestoreDirectory = true;
+
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				//Get the path of specified file
+				filePath = openFileDialog.FileName;
+
+				//Read the contents of the file into a stream
+				var fileStream = openFileDialog.OpenFile();
+
+				using (StreamReader reader = new StreamReader(fileStream))
+				{
+					fileContent = reader.ReadToEnd();
+				}
+			}
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
