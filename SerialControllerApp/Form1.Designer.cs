@@ -223,7 +223,7 @@ namespace SerialControllerApp
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(62, 13);
 			this.label2.TabIndex = 15;
-			this.label2.Text = "Baund rate:";
+			this.label2.Text = "Baud rate:";
 			// 
 			// cboSteps
 			// 
@@ -298,6 +298,8 @@ namespace SerialControllerApp
 			this.Controls.Add(this.btnDownX);
 			this.Controls.Add(this.btnUpY);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximumSize = new System.Drawing.Size(931, 468);
+			this.MinimumSize = new System.Drawing.Size(931, 468);
 			this.Name = "Form1";
 			this.Text = "CNCtool";
 			this.Load += new System.EventHandler(this.Form1_Load);

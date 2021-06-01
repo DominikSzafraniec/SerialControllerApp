@@ -48,7 +48,10 @@ namespace SerialControllerApp
 			this.squareButton = new System.Windows.Forms.Button();
 			this.triangleButton = new System.Windows.Forms.Button();
 			this.circleButton = new System.Windows.Forms.Button();
+			this.rectangleButton = new System.Windows.Forms.Button();
 			this.rubberButton = new System.Windows.Forms.Button();
+			this.textButton = new System.Windows.Forms.Button();
+			this.markingButton = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -56,9 +59,9 @@ namespace SerialControllerApp
 			// 
 			this.panel1.BackColor = System.Drawing.Color.White;
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 63);
+			this.panel1.Location = new System.Drawing.Point(0, 64);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(376, 331);
+			this.panel1.Size = new System.Drawing.Size(366, 398);
 			this.panel1.TabIndex = 0;
 			this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
 			this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
@@ -72,7 +75,7 @@ namespace SerialControllerApp
             this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(376, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(366, 24);
 			this.menuStrip1.TabIndex = 3;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -154,64 +157,94 @@ namespace SerialControllerApp
 			// 
 			// penButton
 			// 
+			this.penButton.Image = ((System.Drawing.Image)(resources.GetObject("penButton.Image")));
 			this.penButton.Location = new System.Drawing.Point(0, 27);
 			this.penButton.Name = "penButton";
-			this.penButton.Size = new System.Drawing.Size(34, 30);
+			this.penButton.Size = new System.Drawing.Size(34, 34);
 			this.penButton.TabIndex = 4;
-			this.penButton.Text = "Pen";
 			this.penButton.UseVisualStyleBackColor = true;
 			this.penButton.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// lineButton
 			// 
+			this.lineButton.Image = ((System.Drawing.Image)(resources.GetObject("lineButton.Image")));
 			this.lineButton.Location = new System.Drawing.Point(40, 27);
 			this.lineButton.Name = "lineButton";
-			this.lineButton.Size = new System.Drawing.Size(34, 30);
+			this.lineButton.Size = new System.Drawing.Size(34, 34);
 			this.lineButton.TabIndex = 5;
-			this.lineButton.Text = "Line";
 			this.lineButton.UseVisualStyleBackColor = true;
 			// 
 			// squareButton
 			// 
+			this.squareButton.Image = ((System.Drawing.Image)(resources.GetObject("squareButton.Image")));
 			this.squareButton.Location = new System.Drawing.Point(80, 27);
 			this.squareButton.Name = "squareButton";
-			this.squareButton.Size = new System.Drawing.Size(34, 30);
+			this.squareButton.Size = new System.Drawing.Size(34, 34);
 			this.squareButton.TabIndex = 6;
-			this.squareButton.Text = "Square";
 			this.squareButton.UseVisualStyleBackColor = true;
 			// 
 			// triangleButton
 			// 
-			this.triangleButton.Location = new System.Drawing.Point(120, 27);
+			this.triangleButton.Image = ((System.Drawing.Image)(resources.GetObject("triangleButton.Image")));
+			this.triangleButton.Location = new System.Drawing.Point(160, 27);
 			this.triangleButton.Name = "triangleButton";
-			this.triangleButton.Size = new System.Drawing.Size(34, 30);
+			this.triangleButton.Size = new System.Drawing.Size(34, 34);
 			this.triangleButton.TabIndex = 7;
-			this.triangleButton.Text = "Triangle";
 			this.triangleButton.UseVisualStyleBackColor = true;
 			// 
 			// circleButton
 			// 
-			this.circleButton.Location = new System.Drawing.Point(160, 27);
+			this.circleButton.Image = ((System.Drawing.Image)(resources.GetObject("circleButton.Image")));
+			this.circleButton.Location = new System.Drawing.Point(200, 27);
 			this.circleButton.Name = "circleButton";
-			this.circleButton.Size = new System.Drawing.Size(34, 30);
+			this.circleButton.Size = new System.Drawing.Size(34, 34);
 			this.circleButton.TabIndex = 8;
-			this.circleButton.Text = "Circle";
 			this.circleButton.UseVisualStyleBackColor = true;
+			// 
+			// rectangleButton
+			// 
+			this.rectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("rectangleButton.Image")));
+			this.rectangleButton.Location = new System.Drawing.Point(120, 27);
+			this.rectangleButton.Name = "rectangleButton";
+			this.rectangleButton.Size = new System.Drawing.Size(34, 34);
+			this.rectangleButton.TabIndex = 10;
+			this.rectangleButton.UseVisualStyleBackColor = true;
 			// 
 			// rubberButton
 			// 
-			this.rubberButton.Location = new System.Drawing.Point(200, 27);
+			this.rubberButton.Image = ((System.Drawing.Image)(resources.GetObject("rubberButton.Image")));
+			this.rubberButton.Location = new System.Drawing.Point(240, 27);
 			this.rubberButton.Name = "rubberButton";
-			this.rubberButton.Size = new System.Drawing.Size(34, 30);
+			this.rubberButton.Size = new System.Drawing.Size(34, 34);
 			this.rubberButton.TabIndex = 9;
-			this.rubberButton.Text = "Rubbber";
 			this.rubberButton.UseVisualStyleBackColor = true;
+			// 
+			// textButton
+			// 
+			this.textButton.Image = ((System.Drawing.Image)(resources.GetObject("textButton.Image")));
+			this.textButton.Location = new System.Drawing.Point(280, 27);
+			this.textButton.Name = "textButton";
+			this.textButton.Size = new System.Drawing.Size(34, 34);
+			this.textButton.TabIndex = 11;
+			this.textButton.UseVisualStyleBackColor = true;
+			// 
+			// markingButton
+			// 
+			this.markingButton.Image = ((System.Drawing.Image)(resources.GetObject("markingButton.Image")));
+			this.markingButton.Location = new System.Drawing.Point(320, 27);
+			this.markingButton.Name = "markingButton";
+			this.markingButton.Size = new System.Drawing.Size(34, 34);
+			this.markingButton.TabIndex = 12;
+			this.markingButton.UseVisualStyleBackColor = true;
 			// 
 			// Form2
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(376, 394);
+			this.ClientSize = new System.Drawing.Size(366, 462);
+			this.Controls.Add(this.markingButton);
+			this.Controls.Add(this.textButton);
+			this.Controls.Add(this.rectangleButton);
 			this.Controls.Add(this.rubberButton);
 			this.Controls.Add(this.circleButton);
 			this.Controls.Add(this.triangleButton);
@@ -222,6 +255,8 @@ namespace SerialControllerApp
 			this.Controls.Add(this.menuStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
+			this.MaximumSize = new System.Drawing.Size(382, 501);
+			this.MinimumSize = new System.Drawing.Size(382, 501);
 			this.Name = "Form2";
 			this.Text = "CNCdesigner";
 			this.menuStrip1.ResumeLayout(false);
@@ -251,6 +286,9 @@ namespace SerialControllerApp
 		private System.Windows.Forms.Button squareButton;
 		private System.Windows.Forms.Button triangleButton;
 		private System.Windows.Forms.Button circleButton;
+		private System.Windows.Forms.Button rectangleButton;
 		private System.Windows.Forms.Button rubberButton;
+		private System.Windows.Forms.Button textButton;
+		private System.Windows.Forms.Button markingButton;
 	}
 }

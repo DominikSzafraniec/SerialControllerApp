@@ -57,11 +57,6 @@ namespace SerialControllerApp
 			y = e.Y;	
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			surface.Save("save1_1.bmp", ImageFormat.MemoryBmp);
-		}
-
 		private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			surface.Save("save1_1.bmp", ImageFormat.MemoryBmp);
@@ -69,20 +64,14 @@ namespace SerialControllerApp
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Stream myStream;
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-
 			saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
 			saveFileDialog1.FilterIndex = 1;
 			saveFileDialog1.RestoreDirectory = true;
 
 			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-				if ((myStream = saveFileDialog1.OpenFile()) != null)
-				{
-					// Code to write the stream goes here.
-					myStream.Close();
-				}
+				surface.Save(saveFileDialog1.FileName, ImageFormat.MemoryBmp);
 			}
 		}
 
@@ -109,8 +98,20 @@ namespace SerialControllerApp
 				}
 			}
 		}
+		private void imageToComands()
+		{
+
+			for (int j = 0; j < surface.Height; j++)
+				for (int i = 0; i < surface.Width; i++)
+					surface.GetPixel(i, j);
+		}
 
 		private void button1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void button1_Click_1(object sender, EventArgs e)
 		{
 
 		}
