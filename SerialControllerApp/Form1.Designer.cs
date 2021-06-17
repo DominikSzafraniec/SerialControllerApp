@@ -53,6 +53,8 @@ namespace SerialControllerApp
 			this.label3 = new System.Windows.Forms.Label();
 			this.btnRefresh = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
+			this.engravingFileButton = new System.Windows.Forms.Button();
+			this.engravingStartButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnUpY
@@ -167,7 +169,8 @@ namespace SerialControllerApp
 			// 
 			// serialPort1
 			// 
-			this.serialPort1.PortName = "COM5";
+			this.serialPort1.BaudRate = 115200;
+			this.serialPort1.PortName = "COM3";
 			// 
 			// btnUpZ
 			// 
@@ -197,7 +200,7 @@ namespace SerialControllerApp
 			// 
 			this.cboBaundRate.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.cboBaundRate.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.cboBaundRate.DisplayMember = "9600";
+			this.cboBaundRate.DisplayMember = "115200";
 			this.cboBaundRate.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.cboBaundRate.FormatString = "N2";
 			this.cboBaundRate.FormattingEnabled = true;
@@ -214,14 +217,14 @@ namespace SerialControllerApp
 			this.cboBaundRate.Name = "cboBaundRate";
 			this.cboBaundRate.Size = new System.Drawing.Size(121, 21);
 			this.cboBaundRate.TabIndex = 16;
-			this.cboBaundRate.Text = "9600";
+			this.cboBaundRate.Text = "115200";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(12, 52);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(62, 13);
+			this.label2.Size = new System.Drawing.Size(56, 13);
 			this.label2.TabIndex = 15;
 			this.label2.Text = "Baud rate:";
 			// 
@@ -273,11 +276,33 @@ namespace SerialControllerApp
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
+			// engravingFileButton
+			// 
+			this.engravingFileButton.Location = new System.Drawing.Point(140, 12);
+			this.engravingFileButton.Name = "engravingFileButton";
+			this.engravingFileButton.Size = new System.Drawing.Size(74, 23);
+			this.engravingFileButton.TabIndex = 21;
+			this.engravingFileButton.Text = "Engrv. File";
+			this.engravingFileButton.UseVisualStyleBackColor = true;
+			this.engravingFileButton.Click += new System.EventHandler(this.engravingFileButton_Click);
+			// 
+			// engravingStartButton
+			// 
+			this.engravingStartButton.Location = new System.Drawing.Point(140, 41);
+			this.engravingStartButton.Name = "engravingStartButton";
+			this.engravingStartButton.Size = new System.Drawing.Size(74, 23);
+			this.engravingStartButton.TabIndex = 22;
+			this.engravingStartButton.Text = "Engrv. Start";
+			this.engravingStartButton.UseVisualStyleBackColor = true;
+			this.engravingStartButton.Click += new System.EventHandler(this.engravingStartButton_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(915, 429);
+			this.Controls.Add(this.engravingStartButton);
+			this.Controls.Add(this.engravingFileButton);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.btnRefresh);
 			this.Controls.Add(this.label3);
@@ -331,6 +356,8 @@ namespace SerialControllerApp
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button btnRefresh;
 		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button engravingFileButton;
+		private System.Windows.Forms.Button engravingStartButton;
 	}
 }
 

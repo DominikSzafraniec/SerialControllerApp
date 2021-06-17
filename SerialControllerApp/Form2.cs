@@ -78,7 +78,6 @@ namespace SerialControllerApp
 		private void Open_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
-			var fileContent = string.Empty;
 			var filePath = string.Empty;
 			openFileDialog.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
 			openFileDialog.FilterIndex = 2;
@@ -88,22 +87,14 @@ namespace SerialControllerApp
 			{
 				//Get the path of specified file
 				filePath = openFileDialog.FileName;
-
-				//Read the contents of the file into a stream
-				var fileStream = openFileDialog.OpenFile();
-
-				using (StreamReader reader = new StreamReader(fileStream))
+				Bitmap bitmapFile = new Bitmap(filePath);
+				if (bitmapFile.Size.Equals(surface.Size))
 				{
-					fileContent = reader.ReadToEnd();
+					surface = bitmapFile;
+					panel1.BackgroundImage = surface;
+					panel1.Invalidate();
 				}
 			}
-		}
-		private void imageToComands()
-		{
-
-			for (int j = 0; j < surface.Height; j++)
-				for (int i = 0; i < surface.Width; i++)
-					surface.GetPixel(i, j);
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -114,6 +105,220 @@ namespace SerialControllerApp
 		private void button1_Click_1(object sender, EventArgs e)
 		{
 
+		}
+		private void imageToComands()
+		{
+			List<String> comands = new List<string>();
+			bool on = false;
+			Color pixelColor;
+			int numOfSteps = 0;
+			String moveDirect = "";
+			for (int j = 0; j < surface.Height; j++)
+			{
+				for (int i = 0; i < surface.Width; i++)
+				{
+					if ((j & 1) == 0)
+					{
+						pixelColor = surface.GetPixel(i, j);
+					}
+					else
+					{
+						pixelColor = surface.GetPixel((surface.Width-i-1), j);
+					}
+					if (j == 0 && i == 0)
+					{
+						if (pixelColor.A.Equals(255))
+						{
+							on = true;
+							comands.Add("o");
+						}
+						moveDirect = "d";
+
+					}
+					else
+					{
+						if ((j & 1) == 0)
+						{
+							moveDirect = "d";
+						}
+						else
+						{
+							moveDirect = "a";
+						}
+						if (pixelColor.A.Equals(255))
+						{
+							if (on)
+							{
+								numOfSteps += 1;
+							}
+							else
+							{
+								on = true;
+								comands.Add(moveDirect + numOfSteps.ToString());
+								comands.Add("o");
+								numOfSteps = 1;
+							}
+						}
+						else
+						{
+
+							if (!on)
+							{
+								numOfSteps += 1;
+							}
+							else
+							{
+								on = false;
+								comands.Add(moveDirect + numOfSteps.ToString());
+								comands.Add("o");
+								numOfSteps = 1;
+							}
+						}
+					}
+
+				}
+				comands.Add(moveDirect + numOfSteps.ToString());
+				numOfSteps = 1;
+				comands.Add("w1");
+				
+			}
+			TextWriter tw = new StreamWriter("ComandList.txt");
+			foreach (String s in comands)
+				tw.WriteLine(s);
+			tw.Close();
+
+		}
+		private void imageToComands2()
+		{
+			List<String> comands = new List<string>();
+			bool on = false;
+			bool emptyline = false;
+			Color pixelColor;
+			int numOfSteps = 0;
+			int numOfEmptyLine = 0;
+			String moveDirect = "";
+			String tempComand = "";
+			comands.Add("z");
+			for (int j = 0; j < surface.Height; j++)
+			{
+				for (int i = 0; i < surface.Width; i++)
+				{
+					if ((j & 1) == 0)
+					{
+						pixelColor = surface.GetPixel((surface.Width - i - 1), j);
+					}
+					else
+					{
+						pixelColor = surface.GetPixel(i, j);
+					}
+
+					if (j == 0 && i == 0)
+					{
+						if (pixelColor.A.Equals(255))
+						{
+							on = true;
+							comands.Add("o");
+						}
+						moveDirect = "d";
+						numOfSteps += 1;
+					}
+					else
+					{
+						if ((j & 1) == 0)
+						{
+							moveDirect = "d";
+						}
+						else
+						{
+							moveDirect = "a";
+						}
+
+						if (pixelColor.A.Equals(255))
+						{
+							if (on)
+							{
+								numOfSteps += 1;
+							}
+							else
+							{
+								on = true;
+								comands.Add(moveDirect + numOfSteps.ToString());
+								comands.Add("o");
+								numOfSteps = 1;
+							}
+						}
+						else
+						{
+							if (!on)
+							{
+								numOfSteps += 1;
+							}
+							else
+							{
+								on = false;
+								comands.Add(moveDirect + numOfSteps.ToString());
+								comands.Add("o");
+								numOfSteps = 1;
+							}
+						}
+					}
+
+				}
+				if(!on && numOfSteps >= (surface.Width))
+				{
+					if (emptyline)
+					{
+						numOfEmptyLine += 2;
+						emptyline = false;
+					}
+					else
+					{
+						emptyline = true;
+					}
+					tempComand = moveDirect + numOfSteps.ToString();
+					numOfSteps = 0;
+				}
+				else
+				{
+					if (numOfEmptyLine > 0)
+					{
+						if (emptyline)
+						{
+							comands.Add(tempComand);
+						}
+						comands.Add("w" + numOfEmptyLine.ToString());
+						numOfEmptyLine = 0;
+					}
+					else
+					{
+						if (comands.Count() > 0)
+						{
+							comands.Add(moveDirect + numOfSteps.ToString());
+							numOfSteps = 0;
+							comands.Add("w1");
+						}
+					}
+				}
+			}
+			TextWriter tw = new StreamWriter("ComandList2.txt");
+			foreach (String s in comands)
+				tw.WriteLine(s);
+			tw.Close();
+		}
+
+		private void opcjeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			
+		}
+
+		private void imageToComandsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			imageToComands();
+		}
+
+		private void imageToComands2ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			imageToComands2();
 		}
 	}
 }

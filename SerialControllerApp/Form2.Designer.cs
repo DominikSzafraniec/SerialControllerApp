@@ -52,6 +52,8 @@ namespace SerialControllerApp
 			this.rubberButton = new System.Windows.Forms.Button();
 			this.textButton = new System.Windows.Forms.Button();
 			this.markingButton = new System.Windows.Forms.Button();
+			this.imageToComandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.imageToComands2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -145,9 +147,13 @@ namespace SerialControllerApp
 			// 
 			// opcjeToolStripMenuItem
 			// 
+			this.opcjeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.imageToComandsToolStripMenuItem,
+            this.imageToComands2ToolStripMenuItem});
 			this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
 			this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.opcjeToolStripMenuItem.Text = "Settings";
+			this.opcjeToolStripMenuItem.Click += new System.EventHandler(this.opcjeToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -237,6 +243,20 @@ namespace SerialControllerApp
 			this.markingButton.TabIndex = 12;
 			this.markingButton.UseVisualStyleBackColor = true;
 			// 
+			// imageToComandsToolStripMenuItem
+			// 
+			this.imageToComandsToolStripMenuItem.Name = "imageToComandsToolStripMenuItem";
+			this.imageToComandsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imageToComandsToolStripMenuItem.Text = "imageToComands";
+			this.imageToComandsToolStripMenuItem.Click += new System.EventHandler(this.imageToComandsToolStripMenuItem_Click);
+			// 
+			// imageToComands2ToolStripMenuItem
+			// 
+			this.imageToComands2ToolStripMenuItem.Name = "imageToComands2ToolStripMenuItem";
+			this.imageToComands2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imageToComands2ToolStripMenuItem.Text = "imageToComands2";
+			this.imageToComands2ToolStripMenuItem.Click += new System.EventHandler(this.imageToComands2ToolStripMenuItem_Click);
+			// 
 			// Form2
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,5 +310,7 @@ namespace SerialControllerApp
 		private System.Windows.Forms.Button rubberButton;
 		private System.Windows.Forms.Button textButton;
 		private System.Windows.Forms.Button markingButton;
+		private System.Windows.Forms.ToolStripMenuItem imageToComandsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem imageToComands2ToolStripMenuItem;
 	}
 }

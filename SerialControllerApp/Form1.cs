@@ -13,9 +13,17 @@ namespace SerialControllerApp
 {
 	public partial class Form1 : Form
 	{
-		public Form1()
+        bool engravingOn;
+        int comandCounter = 0;
+        int actualComand = 0;
+        string sendedComand = "";
+        string filePath = string.Empty;
+        List<String> comandList = new List<String>();
+        public Form1()
 		{
 			InitializeComponent();
+             engravingOn= false;
+
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -37,14 +45,25 @@ namespace SerialControllerApp
         }
         public void AddDataMethod(String myString)
         {
-            txtReceive.AppendText(DateTime.UtcNow.ToString("HH:mm:ss")+ ": " + myString);
+            txtReceive.AppendText(DateTime.UtcNow.ToString("HH:mm:ss")+ ": " + myString+Environment.NewLine);
         }
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
             string s = sp.ReadExisting();
+            string[] subs = s.Split(new string[] {Environment.NewLine}, StringSplitOptions.None);
 
-            txtReceive.Invoke(this.myDelegate, new Object[] { s });
+            foreach (var sub in subs)
+            {
+                if (engravingOn)
+                {
+                    txtReceive.Invoke(this.myDelegate, new Object[] { sub });
+                    txtReceive.Invoke(this.myDelegate, new Object[] { sendedComand.Trim() });
+                    if (sub.Contains(sendedComand.Trim()))
+                        engravingNextCommand();
+                }
+            }
+            
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -205,9 +224,10 @@ namespace SerialControllerApp
             string[] ports = SerialPort.GetPortNames();
             if (!ports.Equals(null))
             {
+                cboPort.Items.Clear();
                 cboPort.Items.AddRange(ports);
                 cboPort.SelectedIndex = 0;
-                cboPort.Text = cboPort.GetItemText(ports[0]);
+                cboPort.Text = cboPort.GetItemText(ports[1]);
             }
         }
 
@@ -217,6 +237,71 @@ namespace SerialControllerApp
             form2.ShowDialog();
 		}
 
+		private void engravingFileButton_Click(object sender, EventArgs e)
+		{
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "bmp files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Get the path of specified file
+                filePath = openFileDialog.FileName;
+                txtReceive.AppendText(filePath);
+            }
+        }
+
+		private void engravingStartButton_Click(object sender, EventArgs e)
+		{
+            string line;
+
+            // Read the file and display it line by line.  
+            System.IO.StreamReader file =
+                new System.IO.StreamReader(filePath);
+            while ((line = file.ReadLine()) != null)
+            {
+                comandList.Add(line);
+                comandCounter++;
+            }
+            file.Close();
+            txtReceive.Invoke(this.myDelegate, new Object[] { Environment.NewLine+"Number of comands readed from file:"+comandCounter.ToString() });
+            engravingNextCommand();
+        }
+		private void engravingNextCommand()
+		{
+			if (engravingOn)
+			{
+                if(actualComand<comandCounter)
+                sendedComand = comandList[actualComand];
+                writeToSerial(comandList[actualComand]);
+                actualComand++;
+			}
+			else
+			{
+                sendedComand = comandList[0];
+                writeToSerial(comandList[0]);
+                actualComand = 1;
+                engravingOn = true;
+			}
+		}
+        private void writeToSerial(String comand)
+		{
+            try
+            {
+                if (serialPort1.IsOpen)
+                {
+                    //Send text to port
+                    string message = comand+"  comand lenght:" + comand.Length.ToString()+Environment.NewLine;
+                    txtReceive.Invoke(this.myDelegate, new Object[] {message});
+                    serialPort1.WriteLine(comand + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 	}
 	
 }
