@@ -24,10 +24,11 @@ namespace SerialControllerApp
 		{
 			InitializeComponent();
 			surface = new Bitmap(panel1.Width, panel1.Height);
+			
 			graphics = Graphics.FromImage(surface);
 			panel1.BackgroundImage = surface;
 			panel1.BackgroundImageLayout = ImageLayout.None;
-			pen = new Pen(Color.Black, 5);
+			pen = new Pen(Color.Black, 2);
 			pen.SetLineCap(System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.DashCap.Round);
 		}
 		private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -106,9 +107,9 @@ namespace SerialControllerApp
 		{
 
 		}
-		private void imageToComands()
+		private void imageToCommands()
 		{
-			List<String> comands = new List<string>();
+			List<String> commands = new List<string>();
 			bool on = false;
 			Color pixelColor;
 			int numOfSteps = 0;
@@ -125,12 +126,13 @@ namespace SerialControllerApp
 					{
 						pixelColor = surface.GetPixel((surface.Width-i-1), j);
 					}
+
 					if (j == 0 && i == 0)
 					{
 						if (pixelColor.A.Equals(255))
 						{
 							on = true;
-							comands.Add("o");
+							commands.Add("o");
 						}
 						moveDirect = "d";
 
@@ -145,6 +147,7 @@ namespace SerialControllerApp
 						{
 							moveDirect = "a";
 						}
+
 						if (pixelColor.A.Equals(255))
 						{
 							if (on)
@@ -154,8 +157,8 @@ namespace SerialControllerApp
 							else
 							{
 								on = true;
-								comands.Add(moveDirect + numOfSteps.ToString());
-								comands.Add("o");
+								commands.Add(moveDirect + numOfSteps.ToString());
+								commands.Add("o");
 								numOfSteps = 1;
 							}
 						}
@@ -169,36 +172,36 @@ namespace SerialControllerApp
 							else
 							{
 								on = false;
-								comands.Add(moveDirect + numOfSteps.ToString());
-								comands.Add("o");
+								commands.Add(moveDirect + numOfSteps.ToString());
+								commands.Add("o");
 								numOfSteps = 1;
 							}
 						}
 					}
 
 				}
-				comands.Add(moveDirect + numOfSteps.ToString());
+				commands.Add(moveDirect + numOfSteps.ToString());
 				numOfSteps = 1;
-				comands.Add("w1");
+				commands.Add("w1");
 				
 			}
-			TextWriter tw = new StreamWriter("ComandList.txt");
-			foreach (String s in comands)
+			TextWriter tw = new StreamWriter("CommandList.txt");
+			foreach (String s in commands)
 				tw.WriteLine(s);
 			tw.Close();
 
 		}
-		private void imageToComands2()
+		private void imageToCommands2()
 		{
-			List<String> comands = new List<string>();
+			List<String> commands = new List<string>();
 			bool on = false;
 			bool emptyline = false;
 			Color pixelColor;
 			int numOfSteps = 0;
 			int numOfEmptyLine = 0;
 			String moveDirect = "";
-			String tempComand = "";
-			comands.Add("z");
+			String tempCommand = "";
+			commands.Add("z");
 			for (int j = 0; j < surface.Height; j++)
 			{
 				for (int i = 0; i < surface.Width; i++)
@@ -214,10 +217,10 @@ namespace SerialControllerApp
 
 					if (j == 0 && i == 0)
 					{
-						if (pixelColor.A.Equals(255))
+						if (pixelColor.GetBrightness().Equals(0) && pixelColor.A.Equals(255))
 						{
 							on = true;
-							comands.Add("o");
+							commands.Add("o");
 						}
 						moveDirect = "d";
 						numOfSteps += 1;
@@ -233,7 +236,7 @@ namespace SerialControllerApp
 							moveDirect = "a";
 						}
 
-						if (pixelColor.A.Equals(255))
+						if (pixelColor.GetBrightness().Equals(0) && pixelColor.A.Equals(255))
 						{
 							if (on)
 							{
@@ -242,8 +245,8 @@ namespace SerialControllerApp
 							else
 							{
 								on = true;
-								comands.Add(moveDirect + numOfSteps.ToString());
-								comands.Add("o");
+								commands.Add(moveDirect + numOfSteps.ToString());
+								commands.Add("o");
 								numOfSteps = 1;
 							}
 						}
@@ -256,15 +259,16 @@ namespace SerialControllerApp
 							else
 							{
 								on = false;
-								comands.Add(moveDirect + numOfSteps.ToString());
-								comands.Add("o");
+								commands.Add(moveDirect + numOfSteps.ToString());
+								commands.Add("o");
 								numOfSteps = 1;
 							}
 						}
 					}
 
 				}
-				if(!on && numOfSteps >= (surface.Width))
+
+				if(!on && numOfSteps >= surface.Width)
 				{
 					if (emptyline)
 					{
@@ -275,7 +279,7 @@ namespace SerialControllerApp
 					{
 						emptyline = true;
 					}
-					tempComand = moveDirect + numOfSteps.ToString();
+					tempCommand = moveDirect + numOfSteps.ToString();
 					numOfSteps = 0;
 				}
 				else
@@ -284,24 +288,24 @@ namespace SerialControllerApp
 					{
 						if (emptyline)
 						{
-							comands.Add(tempComand);
+							commands.Add(tempCommand);
 						}
-						comands.Add("w" + numOfEmptyLine.ToString());
+						commands.Add("w" + numOfEmptyLine.ToString());
 						numOfEmptyLine = 0;
 					}
 					else
 					{
-						if (comands.Count() > 0)
+						if (commands.Count() > 0)
 						{
-							comands.Add(moveDirect + numOfSteps.ToString());
+							commands.Add(moveDirect + numOfSteps.ToString());
 							numOfSteps = 0;
-							comands.Add("w1");
+							commands.Add("w1");
 						}
 					}
 				}
-			}
-			TextWriter tw = new StreamWriter("ComandList2.txt");
-			foreach (String s in comands)
+																																																																																																		}
+			TextWriter tw = new StreamWriter("ComandList3.txt");
+			foreach (String s in commands)
 				tw.WriteLine(s);
 			tw.Close();
 		}
@@ -311,14 +315,14 @@ namespace SerialControllerApp
 			
 		}
 
-		private void imageToComandsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void imageToCommandsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			imageToComands();
+			imageToCommands();
 		}
 
-		private void imageToComands2ToolStripMenuItem_Click(object sender, EventArgs e)
+		private void imageToCommands2ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			imageToComands2();
+			imageToCommands2();
 		}
 	}
 }

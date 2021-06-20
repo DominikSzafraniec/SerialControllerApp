@@ -248,14 +248,14 @@ namespace SerialControllerApp
 			this.imageToComandsToolStripMenuItem.Name = "imageToComandsToolStripMenuItem";
 			this.imageToComandsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.imageToComandsToolStripMenuItem.Text = "imageToComands";
-			this.imageToComandsToolStripMenuItem.Click += new System.EventHandler(this.imageToComandsToolStripMenuItem_Click);
+			this.imageToComandsToolStripMenuItem.Click += new System.EventHandler(this.imageToCommandsToolStripMenuItem_Click);
 			// 
 			// imageToComands2ToolStripMenuItem
 			// 
 			this.imageToComands2ToolStripMenuItem.Name = "imageToComands2ToolStripMenuItem";
 			this.imageToComands2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.imageToComands2ToolStripMenuItem.Text = "imageToComands2";
-			this.imageToComands2ToolStripMenuItem.Click += new System.EventHandler(this.imageToComands2ToolStripMenuItem_Click);
+			this.imageToComands2ToolStripMenuItem.Click += new System.EventHandler(this.imageToCommands2ToolStripMenuItem_Click);
 			// 
 			// Form2
 			// 

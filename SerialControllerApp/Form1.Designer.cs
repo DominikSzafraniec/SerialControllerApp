@@ -212,7 +212,10 @@ namespace SerialControllerApp
             "74880",
             "115200",
             "230400",
-            "250000"});
+            "250000",
+			"500000",
+			"1000000",
+			"2000000"});
 			this.cboBaundRate.Location = new System.Drawing.Point(15, 69);
 			this.cboBaundRate.Name = "cboBaundRate";
 			this.cboBaundRate.Size = new System.Drawing.Size(121, 21);

@@ -14,11 +14,11 @@ namespace SerialControllerApp
 	public partial class Form1 : Form
 	{
         bool engravingOn;
-        int comandCounter = 0;
-        int actualComand = 0;
-        string sendedComand = "";
+        int commandCounter = 0;
+        int actualCommand = 0;
+        string sendedCommand = "";
         string filePath = string.Empty;
-        List<String> comandList = new List<String>();
+        List<String> commandList = new List<String>();
         public Form1()
 		{
 			InitializeComponent();
@@ -57,10 +57,11 @@ namespace SerialControllerApp
             {
                 if (engravingOn)
                 {
-                    txtReceive.Invoke(this.myDelegate, new Object[] { sub });
-                    txtReceive.Invoke(this.myDelegate, new Object[] { sendedComand.Trim() });
-                    if (sub.Contains(sendedComand.Trim()))
+                    if (sub.Contains(sendedCommand.Trim()))
+                    {
+                        txtReceive.Invoke(this.myDelegate, new Object[] { sub });
                         engravingNextCommand();
+                    }
                 }
             }
             
@@ -261,40 +262,38 @@ namespace SerialControllerApp
                 new System.IO.StreamReader(filePath);
             while ((line = file.ReadLine()) != null)
             {
-                comandList.Add(line);
-                comandCounter++;
+                commandList.Add(line);
+                commandCounter++;
             }
             file.Close();
-            txtReceive.Invoke(this.myDelegate, new Object[] { Environment.NewLine+"Number of comands readed from file:"+comandCounter.ToString() });
+            txtReceive.Invoke(this.myDelegate, new Object[] { Environment.NewLine+"Number of commands readed from file:"+commandCounter.ToString()+ Environment.NewLine});
             engravingNextCommand();
         }
 		private void engravingNextCommand()
 		{
 			if (engravingOn)
 			{
-                if(actualComand<comandCounter)
-                sendedComand = comandList[actualComand];
-                writeToSerial(comandList[actualComand]);
-                actualComand++;
+                if(actualCommand<commandCounter)
+                sendedCommand = commandList[actualCommand];
+                writeToSerial(commandList[actualCommand]);
+                actualCommand++;
 			}
 			else
 			{
-                sendedComand = comandList[0];
-                writeToSerial(comandList[0]);
-                actualComand = 1;
+                sendedCommand = commandList[0];
+                writeToSerial(commandList[0]);
+                actualCommand = 1;
                 engravingOn = true;
 			}
 		}
-        private void writeToSerial(String comand)
+        private void writeToSerial(String command)
 		{
             try
             {
                 if (serialPort1.IsOpen)
                 {
                     //Send text to port
-                    string message = comand+"  comand lenght:" + comand.Length.ToString()+Environment.NewLine;
-                    txtReceive.Invoke(this.myDelegate, new Object[] {message});
-                    serialPort1.WriteLine(comand + Environment.NewLine);
+                    serialPort1.WriteLine(command + Environment.NewLine);
                 }
             }
             catch (Exception ex)
