@@ -273,7 +273,7 @@ namespace SerialControllerApp
 		{
 			if (engravingOn)
 			{
-                if(actualCommand<commandCounter)
+                if(actualCommand<commandCounter-1)
                 sendedCommand = commandList[actualCommand];
                 writeToSerial(commandList[actualCommand]);
                 actualCommand++;
@@ -301,6 +301,6 @@ namespace SerialControllerApp
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 	}
-	
 }

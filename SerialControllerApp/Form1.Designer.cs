@@ -213,9 +213,9 @@ namespace SerialControllerApp
             "115200",
             "230400",
             "250000",
-			"500000",
-			"1000000",
-			"2000000"});
+            "500000",
+            "1000000",
+            "2000000"});
 			this.cboBaundRate.Location = new System.Drawing.Point(15, 69);
 			this.cboBaundRate.Name = "cboBaundRate";
 			this.cboBaundRate.Size = new System.Drawing.Size(121, 21);
@@ -325,6 +325,7 @@ namespace SerialControllerApp
 			this.Controls.Add(this.btnUpX);
 			this.Controls.Add(this.btnDownX);
 			this.Controls.Add(this.btnUpY);
+			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximumSize = new System.Drawing.Size(931, 468);
 			this.MinimumSize = new System.Drawing.Size(931, 468);
