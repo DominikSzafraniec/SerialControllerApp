@@ -23,11 +23,48 @@ namespace SerialControllerApp
 		{
 			InitializeComponent();
              engravingOn= false;
-
 		}
-
-		private void Form1_Load(object sender, EventArgs e)
+        private void disableCotrols()
+		{
+            btnSend.Enabled = false;
+            btnDownX.Enabled = false;
+            btnDownY.Enabled = false;
+            btnDownZ.Enabled = false;
+            btnUpX.Enabled = false;
+            btnUpY.Enabled = false;
+            btnUpZ.Enabled = false;
+            btnLaserOn.Enabled = false;
+            btnGoToZero.Enabled = false;
+            cboSteps.Enabled = false;
+            btnClose.Enabled = false;
+            txtMessage.Enabled = false;
+            btnEngravingFile.Enabled = false;
+            btnEngravingStart.Enabled = false;
+        }
+        private void enableCotrols()
         {
+            btnSend.Enabled = true;
+            btnDownX.Enabled = true;
+            btnDownY.Enabled = true;
+            btnDownZ.Enabled = true;
+            btnUpX.Enabled = true;
+            btnUpY.Enabled = true;
+            btnUpZ.Enabled = true;
+            btnLaserOn.Enabled = true;
+            btnGoToZero.Enabled = true;
+            cboSteps.Enabled = true;
+            btnClose.Enabled = true;
+            txtMessage.Enabled = true;
+            btnEngravingFile.Enabled = true;
+            if(!filePath.Equals(String.Empty))
+                btnEngravingStart.Enabled = true;
+            else
+                btnEngravingStart.Enabled = false;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            txtReceive.Enabled = false;
             //Get all ports
             string[] ports = SerialPort.GetPortNames();
             if (!ports.Equals(null))
@@ -39,13 +76,15 @@ namespace SerialControllerApp
             } else {
                 btnOpen.Enabled = false;
 			}
-            btnClose.Enabled = false;
+            disableCotrols();
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
             this.myDelegate = new AddDataDelegate(AddDataMethod);
         }
         public void AddDataMethod(String myString)
         {
             txtReceive.AppendText(DateTime.UtcNow.ToString("HH:mm:ss")+ ": " + myString+Environment.NewLine);
+            if (actualCommand == commandCounter - 1)
+                enableCotrols();
         }
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
@@ -62,6 +101,15 @@ namespace SerialControllerApp
                         txtReceive.Invoke(this.myDelegate, new Object[] { sub });
                         engravingNextCommand();
                     }
+                    if (sub.Contains("End switch"))
+					{
+                        txtReceive.Invoke(this.myDelegate, new Object[] { sub });
+                    }
+
+                }
+				else
+				{
+                    txtReceive.Invoke(this.myDelegate, new Object[] { sub });
                 }
             }
             
@@ -69,19 +117,25 @@ namespace SerialControllerApp
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            btnOpen.Enabled = false;
-            btnClose.Enabled = true;
-            btnRefresh.Enabled = false;
             try
             {
                 //Open port
                 serialPort1.PortName = cboPort.Text;
                 serialPort1.BaudRate = int.Parse(cboBaundRate.Text);
                 serialPort1.Open();
+                enableCotrols();
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+			if (serialPort1.IsOpen)
+			{
+                btnOpen.Enabled = false;
+                btnClose.Enabled = true;
+                btnRefresh.Enabled = false;
+                cboBaundRate.Enabled = false;
+                cboPort.Enabled = false;
             }
         }
  
@@ -107,6 +161,9 @@ namespace SerialControllerApp
             btnOpen.Enabled = true;
             btnClose.Enabled = false;
             btnRefresh.Enabled = true;
+            cboBaundRate.Enabled = true;
+            cboPort.Enabled = true;
+            disableCotrols();
             try
             {
                 serialPort1.Close();
@@ -228,7 +285,8 @@ namespace SerialControllerApp
                 cboPort.Items.Clear();
                 cboPort.Items.AddRange(ports);
                 cboPort.SelectedIndex = 0;
-                cboPort.Text = cboPort.GetItemText(ports[1]);
+                if(ports.Length>0)
+				cboPort.Text = cboPort.GetItemText(ports[0]);
             }
         }
 
@@ -241,8 +299,8 @@ namespace SerialControllerApp
 		private void engravingFileButton_Click(object sender, EventArgs e)
 		{
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "bmp files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog.FilterIndex = 2;
+            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -251,6 +309,10 @@ namespace SerialControllerApp
                 filePath = openFileDialog.FileName;
                 txtReceive.AppendText(filePath);
             }
+            if (!filePath.Equals(String.Empty))
+                btnEngravingStart.Enabled = true;
+            else
+                btnEngravingStart.Enabled = false;
         }
 
 		private void engravingStartButton_Click(object sender, EventArgs e)
@@ -260,6 +322,9 @@ namespace SerialControllerApp
             // Read the file and display it line by line.  
             System.IO.StreamReader file =
                 new System.IO.StreamReader(filePath);
+            commandList=new List<string>();
+            engravingOn = false;
+            commandCounter = 0;
             while ((line = file.ReadLine()) != null)
             {
                 commandList.Add(line);
@@ -267,6 +332,7 @@ namespace SerialControllerApp
             }
             file.Close();
             txtReceive.Invoke(this.myDelegate, new Object[] { Environment.NewLine+"Number of commands readed from file:"+commandCounter.ToString()+ Environment.NewLine});
+            disableCotrols();
             engravingNextCommand();
         }
 		private void engravingNextCommand()
@@ -285,7 +351,9 @@ namespace SerialControllerApp
                 actualCommand = 1;
                 engravingOn = true;
 			}
-		}
+            
+
+        }
         private void writeToSerial(String command)
 		{
             try
@@ -302,5 +370,40 @@ namespace SerialControllerApp
             }
         }
 
+		private void btnGoToZero_Click(object sender, EventArgs e)
+		{
+            try
+            {
+                if (serialPort1.IsOpen)
+                {
+                    //Send text to port
+                    serialPort1.WriteLine("z" + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+		private void btnLaserOn_Click(object sender, EventArgs e)
+		{
+            try
+            {
+                if (serialPort1.IsOpen)
+                {
+                    //Send text to port
+                    serialPort1.WriteLine("o" + Environment.NewLine);
+                    if (btnLaserOn.Text.Equals("Laser On"))
+                        btnLaserOn.Text = "Laser Off";
+                    else
+                        btnLaserOn.Text = "Laser On";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 	}
 }

@@ -35,7 +35,7 @@ namespace SerialControllerApp
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.retryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.Open = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,8 +46,6 @@ namespace SerialControllerApp
 			this.imageToComandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.allComandTxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optimizedCommandTxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.imageToComands2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.penButton = new System.Windows.Forms.Button();
 			this.lineButton = new System.Windows.Forms.Button();
 			this.squareButton = new System.Windows.Forms.Button();
@@ -55,11 +53,9 @@ namespace SerialControllerApp
 			this.circleButton = new System.Windows.Forms.Button();
 			this.rectangleButton = new System.Windows.Forms.Button();
 			this.rubberButton = new System.Windows.Forms.Button();
-			this.textButton = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.cboLatency = new System.Windows.Forms.ComboBox();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.checkBox2 = new System.Windows.Forms.CheckBox();
+			this.cbxFillShape = new System.Windows.Forms.CheckBox();
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.label2 = new System.Windows.Forms.Label();
 			this.sizeLabel = new System.Windows.Forms.Label();
@@ -73,8 +69,10 @@ namespace SerialControllerApp
 			this.panel1.BackColor = System.Drawing.Color.White;
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panel1.Location = new System.Drawing.Point(0, 94);
+			this.panel1.MaximumSize = new System.Drawing.Size(350, 380);
+			this.panel1.MinimumSize = new System.Drawing.Size(350, 380);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(366, 398);
+			this.panel1.Size = new System.Drawing.Size(350, 380);
 			this.panel1.TabIndex = 0;
 			this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
 			this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
@@ -84,11 +82,10 @@ namespace SerialControllerApp
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.plikToolStripMenuItem,
-            this.opcjeToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.opcjeToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(366, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(350, 24);
 			this.menuStrip1.TabIndex = 3;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -96,7 +93,7 @@ namespace SerialControllerApp
 			// 
 			this.plikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
-            this.retryToolStripMenuItem,
+            this.redoToolStripMenuItem,
             this.toolStripSeparator1,
             this.Open,
             this.saveToolStripMenuItem1,
@@ -109,58 +106,62 @@ namespace SerialControllerApp
 			// 
 			// undoToolStripMenuItem
 			// 
+			this.undoToolStripMenuItem.Enabled = false;
 			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-			this.undoToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.undoToolStripMenuItem.Text = "Undo";
+			this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
 			// 
-			// retryToolStripMenuItem
+			// redoToolStripMenuItem
 			// 
-			this.retryToolStripMenuItem.Name = "retryToolStripMenuItem";
-			this.retryToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-			this.retryToolStripMenuItem.Text = "Retry";
+			this.redoToolStripMenuItem.Enabled = false;
+			this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+			this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.redoToolStripMenuItem.Text = "Redo";
+			this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(118, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// Open
 			// 
 			this.Open.Name = "Open";
-			this.Open.Size = new System.Drawing.Size(121, 22);
+			this.Open.Size = new System.Drawing.Size(180, 22);
 			this.Open.Text = "Open";
 			this.Open.Click += new System.EventHandler(this.Open_Click);
 			// 
 			// saveToolStripMenuItem1
 			// 
 			this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-			this.saveToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
+			this.saveToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.saveToolStripMenuItem1.Text = "Save";
 			this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.saveAsToolStripMenuItem.Text = "Save as...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(118, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.closeToolStripMenuItem.Text = "Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// opcjeToolStripMenuItem
 			// 
 			this.opcjeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.imageToComandsToolStripMenuItem,
-            this.imageToComands2ToolStripMenuItem});
+            this.imageToComandsToolStripMenuItem});
 			this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
 			this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
 			this.opcjeToolStripMenuItem.Text = "Export";
@@ -188,18 +189,6 @@ namespace SerialControllerApp
 			this.optimizedCommandTxtToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
 			this.optimizedCommandTxtToolStripMenuItem.Text = "Optimized command txt";
 			this.optimizedCommandTxtToolStripMenuItem.Click += new System.EventHandler(this.optimizedCommandTxtToolStripMenuItem_Click);
-			// 
-			// imageToComands2ToolStripMenuItem
-			// 
-			this.imageToComands2ToolStripMenuItem.Name = "imageToComands2ToolStripMenuItem";
-			this.imageToComands2ToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-			this.imageToComands2ToolStripMenuItem.Text = "Export as...";
-			// 
-			// aboutToolStripMenuItem
-			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-			this.aboutToolStripMenuItem.Text = "About";
 			// 
 			// penButton
 			// 
@@ -271,15 +260,6 @@ namespace SerialControllerApp
 			this.rubberButton.UseVisualStyleBackColor = true;
 			this.rubberButton.Click += new System.EventHandler(this.rubberButton_Click);
 			// 
-			// textButton
-			// 
-			this.textButton.Image = ((System.Drawing.Image)(resources.GetObject("textButton.Image")));
-			this.textButton.Location = new System.Drawing.Point(280, 27);
-			this.textButton.Name = "textButton";
-			this.textButton.Size = new System.Drawing.Size(34, 34);
-			this.textButton.TabIndex = 11;
-			this.textButton.UseVisualStyleBackColor = true;
-			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
@@ -349,25 +329,15 @@ namespace SerialControllerApp
 			this.cboLatency.TabIndex = 14;
 			this.cboLatency.Text = "1000";
 			// 
-			// checkBox1
+			// cbxFillShape
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(127, 70);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(67, 17);
-			this.checkBox1.TabIndex = 15;
-			this.checkBox1.Text = "fill shape";
-			this.checkBox1.UseVisualStyleBackColor = true;
-			// 
-			// checkBox2
-			// 
-			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(320, 27);
-			this.checkBox2.Name = "checkBox2";
-			this.checkBox2.Size = new System.Drawing.Size(46, 17);
-			this.checkBox2.TabIndex = 16;
-			this.checkBox2.Text = "bold";
-			this.checkBox2.UseVisualStyleBackColor = true;
+			this.cbxFillShape.AutoSize = true;
+			this.cbxFillShape.Location = new System.Drawing.Point(127, 70);
+			this.cbxFillShape.Name = "cbxFillShape";
+			this.cbxFillShape.Size = new System.Drawing.Size(67, 17);
+			this.cbxFillShape.TabIndex = 15;
+			this.cbxFillShape.Text = "fill shape";
+			this.cbxFillShape.UseVisualStyleBackColor = true;
 			// 
 			// trackBar1
 			// 
@@ -385,7 +355,7 @@ namespace SerialControllerApp
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(334, 62);
+			this.label2.Location = new System.Drawing.Point(282, 46);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(30, 13);
 			this.label2.TabIndex = 18;
@@ -394,7 +364,7 @@ namespace SerialControllerApp
 			// sizeLabel
 			// 
 			this.sizeLabel.AutoSize = true;
-			this.sizeLabel.Location = new System.Drawing.Point(334, 78);
+			this.sizeLabel.Location = new System.Drawing.Point(318, 46);
 			this.sizeLabel.MaximumSize = new System.Drawing.Size(20, 13);
 			this.sizeLabel.MinimumSize = new System.Drawing.Size(20, 13);
 			this.sizeLabel.Name = "sizeLabel";
@@ -406,7 +376,7 @@ namespace SerialControllerApp
 			// timer1
 			// 
 			this.timer1.Enabled = true;
-			this.timer1.Interval = 20;
+			this.timer1.Interval = 10;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// Form2
@@ -414,14 +384,12 @@ namespace SerialControllerApp
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-			this.ClientSize = new System.Drawing.Size(366, 492);
+			this.ClientSize = new System.Drawing.Size(350, 474);
 			this.Controls.Add(this.sizeLabel);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.checkBox2);
-			this.Controls.Add(this.checkBox1);
+			this.Controls.Add(this.cbxFillShape);
 			this.Controls.Add(this.cboLatency);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.textButton);
 			this.Controls.Add(this.rectangleButton);
 			this.Controls.Add(this.rubberButton);
 			this.Controls.Add(this.circleButton);
@@ -435,10 +403,11 @@ namespace SerialControllerApp
 			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
-			this.MaximumSize = new System.Drawing.Size(382, 531);
-			this.MinimumSize = new System.Drawing.Size(382, 531);
+			this.MaximumSize = new System.Drawing.Size(366, 513);
+			this.MinimumSize = new System.Drawing.Size(366, 513);
 			this.Name = "Form2";
 			this.Text = "CNCdesigner";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
@@ -453,12 +422,11 @@ namespace SerialControllerApp
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem plikToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem retryToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem Open;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -469,15 +437,12 @@ namespace SerialControllerApp
 		private System.Windows.Forms.Button circleButton;
 		private System.Windows.Forms.Button rectangleButton;
 		private System.Windows.Forms.Button rubberButton;
-		private System.Windows.Forms.Button textButton;
 		private System.Windows.Forms.ToolStripMenuItem imageToComandsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem imageToComands2ToolStripMenuItem;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox cboLatency;
 		private System.Windows.Forms.ToolStripMenuItem allComandTxtToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optimizedCommandTxtToolStripMenuItem;
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.CheckBox checkBox2;
+		private System.Windows.Forms.CheckBox cbxFillShape;
 		private System.Windows.Forms.TrackBar trackBar1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label sizeLabel;

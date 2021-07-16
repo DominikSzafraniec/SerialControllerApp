@@ -19,16 +19,19 @@ namespace SerialControllerApp
 		Bitmap surface;
 		Bitmap tempSurface;
 		string filePath = string.Empty;
+		private List<Bitmap> undoList;
+		private List<Bitmap> redoList;
 		public Pen pen;
+		public Brush brush;
 		int x = -1;
 		int y = -1;
-		bool drawing = false;
-		bool strightLine = false;
-		bool square = false;
-		bool rectangle = false;
-		bool triangle = false;
-		bool ellipse = false;
-		bool rubber = false;
+		private bool drawing = false;
+		private bool strightLine = false;
+		private bool square = false;
+		private bool rectangle = false;
+		private bool triangle = false;
+		private bool ellipse = false;
+		private bool rubber = false;
 
 		private void setAllToolsFalse()
 		{
@@ -62,24 +65,29 @@ namespace SerialControllerApp
 			graphics = Graphics.FromImage(surface);
 			panel1.BackgroundImage = surface;
 			panel1.BackgroundImageLayout = ImageLayout.None;
+			graphics2 = panel1.CreateGraphics();
 		}
 		public Form2()
 		{
 			InitializeComponent();
 			surface = changeTransparentToWhite(new Bitmap(panel1.Width, panel1.Height));
 			graphics = Graphics.FromImage(surface);
-			graphics2 = panel1.CreateGraphics();
 			panel1.BackgroundImage = surface;
 			panel1.BackgroundImageLayout = ImageLayout.None;
+			graphics2 = panel1.CreateGraphics();
 			pen = new Pen(Color.Black, 1);
+			brush = new SolidBrush(Color.Black);
 			pen.SetLineCap(System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.DashCap.Round);
-		}
+			undoList = new List<Bitmap>();
+			redoList = new List<Bitmap>();
+	}
 		private void panel1_MouseDown(object sender, MouseEventArgs e)
 		{
-			tempSurface = surface;
+			tempSurface = new Bitmap(surface);
 			drawing = true;
 			x = e.X;
 			y = e.Y;
+			
 		}
 
 		private void panel1_MouseUp(object sender, MouseEventArgs e)
@@ -87,92 +95,100 @@ namespace SerialControllerApp
 			drawing = false;
 			x = -1;
 			y = -1;
+			if (undoList.Count == 10)
+			{
+				undoList.RemoveAt(0);
+				undoList.Add(tempSurface);
+			}
+			else
+			{
+				undoList.Add(tempSurface);
+			}
+			redoList.Clear();
+			redoToolStripMenuItem.Enabled = false;
+			undoToolStripMenuItem.Enabled = true;
 			graphics.Flush();
 		}
 
 		private void panel1_MouseMove(object sender, MouseEventArgs e)
 		{
-			
-			if (strightLine)
+
+			if (drawing)
 			{
-				
-				if (drawing && x != -1 && y != -1)
+				if (strightLine)
 				{
+
 					setImageFromFile(tempSurface);
 					graphics.DrawLine(pen, new Point(x, y), e.Location);
-					//panel1.Invalidate();
 				}
-			}
-			else if (square)
-			{
+				else if (square)
+				{
 
-				if (drawing && x != -1 && y != -1)
+					setImageFromFile(tempSurface);
+					if (cbxFillShape.Checked)
+					{
+						graphics.FillRectangle(brush, x, y, e.Location.X - x, e.Location.X - x);
+					}
+						graphics.DrawRectangle(pen, x, y, e.Location.X - x, e.Location.X - x);
+				}
+				else if (rectangle)
 				{
 					setImageFromFile(tempSurface);
-					graphics.DrawRectangle(pen, x,y,e.Location.X-x,e.Location.X-x);
-					//panel1.Invalidate();
-				}
-			}
-			else if (rectangle)
-			{
+					if (cbxFillShape.Checked)
+					{
+						graphics.FillRectangle(brush, x, y, e.Location.X - x, e.Location.Y - y);
+					}
 
-				if (drawing && x != -1 && y != -1)
+						graphics.DrawRectangle(pen, x, y, e.Location.X - x, e.Location.Y - y);
+				}
+				else if (triangle)
 				{
 					setImageFromFile(tempSurface);
-					graphics.DrawRectangle(pen, x, y, e.Location.X-x, e.Location.Y-y);
-					//panel1.Invalidate();
+					if (cbxFillShape.Checked)
+					{
+						graphics.FillPolygon(brush, new Point[] { new Point(x, e.Location.Y), new Point(x + ((e.Location.X - x) / 2), y), new Point(e.Location.X, e.Location.Y) });
+					}
+						graphics.DrawPolygon(pen, new Point[] { new Point(x, e.Location.Y), new Point(x + ((e.Location.X - x) / 2), y), new Point(e.Location.X, e.Location.Y) });
 				}
-			}
-			else if (triangle)
-			{
-
-				if (drawing && x != -1 && y != -1)
+				else if (ellipse)
 				{
 					setImageFromFile(tempSurface);
-					graphics.DrawPolygon(pen,new Point[] {new Point(x,e.Location.Y), new Point(x+((e.Location.X-x)/2), y), new Point(e.Location.X, e.Location.Y) });
-					//panel1.Invalidate();
+					if (cbxFillShape.Checked)
+					{
+						graphics.FillEllipse(brush, new Rectangle(new Point(x, y), new Size(e.Location.X - x, e.Location.Y - y)));
+					}
+						graphics.DrawEllipse(pen, new Rectangle(new Point(x, y), new Size(e.Location.X - x, e.Location.Y - y)));
 				}
-			}
-			else if (ellipse)
-			{
-
-				if (drawing && x != -1 && y != -1 )
-				{
-					setImageFromFile(tempSurface);
-					graphics.DrawEllipse(pen, new Rectangle(new Point(x,y),new Size(e.Location.X-x,e.Location.Y-y)));
-					//panel1.Invalidate();
-				}
-			}
-			else if (rubber)
-			{
-
-				if (drawing && x != -1 && y != -1)
+				else if (rubber)
 				{
 					graphics.DrawLine(pen, new Point(x, y), e.Location);
-					//panel1.Invalidate();
+					x = e.X;
+					y = e.Y;
 				}
-				x = e.X;
-				y = e.Y;
-			}
 
-			else
-			{
-				if (drawing && x != -1 && y != -1)
+				else
 				{
 					graphics.DrawLine(pen, new Point(x, y), e.Location);
-					//panel1.Invalidate();
+					x = e.X;
+					y = e.Y;
 				}
-				x = e.X;
-				y = e.Y;
 			}
 		}
 
 		private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			if (filePath.Equals(string.Empty))
-				saveAsToolStripMenuItem_Click(sender,e);
-			else
+				saveAsToolStripMenuItem_Click(sender, e);
+			else { 
+			try
+			{
 				surface.Save(filePath, ImageFormat.MemoryBmp);
+			}
+			catch (Exception ex)
+			{
+					surface.Save(filePath, surface.RawFormat);
+				}
+		}
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,7 +216,7 @@ namespace SerialControllerApp
 			{
 				//Get the path of specified file
 				filePath = openFileDialog.FileName;
-				Bitmap bitmapFile = new Bitmap(filePath);
+				Bitmap bitmapFile = (Bitmap)Image.FromStream(new MemoryStream(File.ReadAllBytes(filePath)));
 				if (bitmapFile.Size.Equals(surface.Size))
 				{
 					bitmapFile = changeTransparentToWhite(bitmapFile);
@@ -295,7 +311,7 @@ namespace SerialControllerApp
 				saveAsToolStripMenuItem_Click(new Object(), new EventArgs());
 			if (!filePath.Equals(string.Empty))
 			{
-				TextWriter tw = new StreamWriter(Path.GetDirectoryName(filePath) + Path.GetFileNameWithoutExtension(filePath) + "_command_list.txt");
+				TextWriter tw = new StreamWriter(Path.Combine(new string[] { Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "_command_list.txt" }));
 				foreach (String s in commands)
 					tw.WriteLine(s);
 				tw.Close();
@@ -431,11 +447,31 @@ namespace SerialControllerApp
 				saveAsToolStripMenuItem_Click(new Object(),new EventArgs());
 			if (!filePath.Equals(string.Empty))
 			{
-				TextWriter tw = new StreamWriter(Path.GetDirectoryName(filePath) + Path.GetFileNameWithoutExtension(filePath) + "_optimized_command_list.txt");
+				TextWriter tw = new StreamWriter(Path.Combine(new string[] { Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "_optimized_command_list.txt" }));
 				foreach (String s in commands)
 					tw.WriteLine(s);
 				tw.Close();
 			}
+		}
+		private void undo()
+		{
+			var index = undoList.Count() - 1;
+			redoList.Add(surface);
+			setImageFromFile(undoList[index]);
+			undoList.RemoveAt(index);
+			redoToolStripMenuItem.Enabled = true;
+			if (undoList.Count < 1)
+				undoToolStripMenuItem.Enabled = false;
+		}
+		private void redo()
+		{
+			var index = redoList.Count() - 1;
+			undoList.Add(surface);
+			setImageFromFile(redoList[index]);
+			redoList.RemoveAt(index);
+			undoToolStripMenuItem.Enabled = true;
+			if (redoList.Count < 1)
+				redoToolStripMenuItem.Enabled = false;
 		}
 
 		private void opcjeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -461,6 +497,7 @@ namespace SerialControllerApp
 		{
 			setAllToolsFalse();
 			rectangle = true;
+			tempSurface = surface;
 		}
 
 		private void triangleButton_Click(object sender, EventArgs e)
@@ -501,6 +538,30 @@ namespace SerialControllerApp
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			graphics2.DrawImage(surface, 0, 0);
+		}
+
+		private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			undo();
+		}
+
+		private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			redo();
+		}
+
+		private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			DialogResult dialogResult = MessageBox.Show("Do You Want To Save Your Data", "CodeJuggler", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				saveToolStripMenuItem1_Click(sender, e);
+			}
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Form2_FormClosing(sender, new FormClosingEventArgs(CloseReason.UserClosing,true));
 		}
 	}
 }
